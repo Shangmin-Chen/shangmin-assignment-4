@@ -39,4 +39,38 @@ function displayChart(data) {
     //        - similarities (list) - list of similarities
     // TODO: Implement function to display chart here
     //       There is a canvas element in the HTML file with the id 'similarity-chart'
+    let ctx = document.getElementById('similarity-chart').getContext('2d');
+    
+    // Destroy previous chart instance if it exists
+    if (window.similarityChart) {
+        window.similarityChart.destroy();
+    }
+    
+    // Create a new bar chart
+    window.similarityChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.indices.map((index, i) => `Doc ${index}`), // Document labels
+            datasets: [{
+                label: 'Similarity',
+                data: data.similarities,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false // Hide legend since we only have one dataset
+                }
+            }
+        }
+    });
 }
